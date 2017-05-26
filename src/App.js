@@ -12,74 +12,73 @@ buttonPress();
 class App extends Component {
 
   state = {
-    pokemon1: 'Please Search for a pokemon!',
-    pokemon2: 'This is where another pokemon will show!'
+    email: '',
+    password: '',
+    errors: ''
   } //end of state
 
   componentDidMount() {
-    axios.get('http://192.168.1.159:5000/elliot')
-    .then(response => {
-      console.log(response.data);
-      this.setState({ pokemon1: response.data.elliot });
-    })
-    .catch(error => {
-      console.log(error);
-      console.log(error.response.data);
-    });
+    console.log('loaded');
   } // end of componentWillMount
 
   buttonPress() {
-    this.setState({ pokemon1: false, pokemon2: false });
-    // SET TOP POKEMON
-    axios.get('http://192.168.1.159:5000/elliot')
+    axios.post('http://192.168.1.159:5000/login', {
+      email: this.state.email,
+      password: this.state.password
+    }, { withCredentials: true })
     .then(response => {
-      this.setState({ pokemon1: response.data.elliot });
+      console.log(response.data);
     })
     .catch(error => {
-      this.setState({ pokemon1: error.response.data.error });
+      console.log(error.response);
     });
-    // SET BOTTOM POKEMON
-    axios.get('http://192.168.1.159:5000/elliot')
+  }
+
+  checkLogin() {
+    axios.get('http://192.168.1.159:5000/session', { withCredentials: true })
     .then(response => {
-      this.setState({ pokemon2: response.data.elliot });
+      console.log(response.data);
     })
     .catch(error => {
-      this.setState({ pokemon2: error.response.data.error });
+      console.log(error);
     });
   }
 
   render() {
     return (
       <View>
-        <Header headerText="Flower App" />
+        <Header headerText="Hanagachi" />
         <Card>
           <CardSection>
             <Input
-              label="username"
-              placeholder="username"
+              label="email"
+              placeholder="email"
+              onChangeText={email => this.setState({ email })}
             />
           </CardSection>
           <CardSection>
-            {this.state.pokemon1 &&
-              <Text>{this.state.pokemon1}</Text>
-            }
-            {!this.state.pokemon1 &&
-              <Spinner size="large" />
-            }
-          </CardSection>
-          <CardSection>
-            {this.state.pokemon2 &&
-              <Text>{this.state.pokemon2}</Text>
-            }
-            {!this.state.pokemon2 &&
-              <Spinner size="large" />
-            }
+            <Input
+              label="password"
+              placeholder="password"
+              secureTextEntry
+              onChangeText={password => this.setState({ password })}
+            />
           </CardSection>
           <CardSection>
             <Button
               onPress={this.buttonPress.bind(this)}
             >
                 BUTTON
+              </Button>
+            </CardSection>
+            <CardSection>
+              <Text>{this.state.errors}</Text>
+            </CardSection>
+            <CardSection>
+              <Button
+                onPress={this.checkLogin.bind(this)}
+              >
+                Check Login
               </Button>
             </CardSection>
           </Card>
