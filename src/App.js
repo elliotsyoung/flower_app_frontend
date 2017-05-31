@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { View, Text } from 'react-native';
-import { Header, Card, CardSection, Input, Button, Spinner } from './components/common';
+import { Header, Card, CardSection, Input, Button } from './components/common';
 
-function buttonPress() {
-  console.log('Outside of the class!');
-}
-
-buttonPress();
+const ax = axios.create({
+  baseURL: 'http://192.168.1.159:5000/',
+  withCredentials: true
+});
 
 class App extends Component {
 
@@ -22,10 +21,10 @@ class App extends Component {
   } // end of componentWillMount
 
   buttonPress() {
-    axios.post('http://192.168.1.159:5000/login', {
+    ax.post('login', {
       email: this.state.email,
       password: this.state.password
-    }, { withCredentials: true })
+    })
     .then(response => {
       console.log(response.data);
     })
@@ -35,7 +34,7 @@ class App extends Component {
   }
 
   checkLogin() {
-    axios.get('http://192.168.1.159:5000/session', { withCredentials: true })
+    ax.get('session')
     .then(response => {
       console.log(response.data);
     })
