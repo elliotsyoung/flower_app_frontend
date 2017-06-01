@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { emailChanged, passwordChanged, loginUser } from '../actions';
-import { Card, CardSection, Input, Button, Spinner } from './common';
+import { Card, Header, CardSection, Input, Button, Spinner } from './common';
 
 class LoginForm extends Component {
   onEmailChange(text) {
@@ -33,52 +33,55 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <Card>
-        <CardSection>
-          <Input
-            label="Email"
-            placeholder="email@gmail.com"
-            onChangeText={this.onEmailChange.bind(this)}
-            value={this.props.email}
-          />
-        </CardSection>
+      <View>
+        <Header headerText="Hanagachi" />
+        <Card>
+          <CardSection>
+            <Input
+              label="email"
+              placeholder="email"
+              onChangeText={this.onEmailChange.bind(this)}
+              value={this.props.email}
+            />
+          </CardSection>
+          <CardSection>
+            <Input
+              label="password"
+              placeholder="password"
+              secureTextEntry
+              onChangeText={this.onPasswordChange.bind(this)}
+              value={this.props.password}
+            />
+          </CardSection>
+          <CardSection>
+            <Button
+              onPress={this.buttonPress.bind(this)}
+            >
+                BUTTON
+              </Button>
+            </CardSection>
+            <CardSection>
+              <Text>{this.state.errors}</Text>
+            </CardSection>
+            <CardSection>
+              <Button
+                onPress={this.checkLogin.bind(this)}
+              >
+                  Check Login
+                </Button>
+              </CardSection>
+            </Card>
+          </View>
+        );
+      }
+    }
 
-        <CardSection>
-          <Input
-            secureTextEntry
-            label="Password"
-            placeholder="password"
-            onChangeText={this.onPasswordChange.bind(this)}
-            value={this.props.password}
-          />
-        </CardSection>
+    const mapStateToProps = ({ auth }) => {
+      const { email, password, error, loading } = auth;
 
-        <Text style={styles.errorTextStyle}>
-          {this.props.error}
-        </Text>
+      return { email, password, error, loading };
+    };
 
-        <CardSection>
-          {this.renderButton()}
-        </CardSection>
-      </Card>
-    );
-  }
-}
-
-const styles = {
-  errorTextStyle: {
-    fontSize: 20,
-    alignSelf: 'center',
-    color: 'red'
-  }
-};
-
-const mapStateToProps = ({ auth }) => {
-  const { email, password, error, loading } = auth;
-
-  return { email, password, error, loading };
-};
-
-export default connect(mapStateToProps, {
-  emailChanged, passwordChanged, loginUser
-})(LoginForm);
+    export default connect(mapStateToProps, {
+      emailChanged, passwordChanged, loginUser
+    })(LoginForm);

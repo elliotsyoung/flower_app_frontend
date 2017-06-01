@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
-import { View, Text } from 'react-native';
-import { Header, Card, CardSection, Input, Button } from './components/common';
+// import { View, Text } from 'react-native';
+// import { Header, Card, CardSection, Input, Button } from './components/common';
 import reducers from './reducers';
+import LoginForm from './components';
 
 import ax from './config/axiosSetup';
 
@@ -38,44 +39,8 @@ class App extends Component {
     const store = createStore(reducers, {}, applyMiddleware(ReduxThunk));
     return (
       <Provider store={store}>
-        <View>
-          <Header headerText="Hanagachi" />
-          <Card>
-            <CardSection>
-              <Input
-                label="email"
-                placeholder="email"
-                onChangeText={email => this.setState({ email })}
-              />
-            </CardSection>
-            <CardSection>
-              <Input
-                label="password"
-                placeholder="password"
-                secureTextEntry
-                onChangeText={password => this.setState({ password })}
-              />
-            </CardSection>
-            <CardSection>
-              <Button
-                onPress={this.buttonPress.bind(this)}
-              >
-                  BUTTON
-                </Button>
-              </CardSection>
-              <CardSection>
-                <Text>{this.state.errors}</Text>
-              </CardSection>
-              <CardSection>
-                <Button
-                  onPress={this.checkLogin.bind(this)}
-                >
-                    Check Login
-                  </Button>
-                </CardSection>
-              </Card>
-            </View>
-          </Provider>
+        <LoginForm/>
+      </Provider>
       );
     } // end of Render
   } // end of App
