@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { emailChanged, passwordChanged, loginUser } from '../actions';
-import { Card, Header, CardSection, Input, Button, Spinner } from './common';
+import { emailChanged, passwordChanged, loginUser } from './../../actions/AuthActions';
+import { Card, Header, CardSection, Input, Button, Spinner, FruitLoader } from './';
 
 class LoginForm extends Component {
   onEmailChange(text) {
@@ -19,9 +19,14 @@ class LoginForm extends Component {
     this.props.loginUser({ email, password }); // Action
   }
 
+  checkLogin() {
+    //we will end up removing this function actually but whatever
+    console.log("not implemented");
+  }
+
   renderButton() {
     if (this.props.loading) {
-      return <Spinner size="large" />;
+      return <FruitLoader size="medium" />;
     }
 
     return (
@@ -55,13 +60,13 @@ class LoginForm extends Component {
           </CardSection>
           <CardSection>
             <Button
-              onPress={this.buttonPress.bind(this)}
+              onPress={this.onButtonPress.bind(this)}
             >
                 BUTTON
               </Button>
             </CardSection>
             <CardSection>
-              <Text>{this.state.errors}</Text>
+              <Text>{this.props.errors}</Text>
             </CardSection>
             <CardSection>
               <Button
