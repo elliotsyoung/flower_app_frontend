@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import ReduxThunk from 'redux-thunk';
-// import { View, Text } from 'react-native';
-// import { Header, Card, CardSection, Input, Button } from './components/common';
+import { View, Text } from 'react-native';
 import reducers from './reducers';
-import LoginForm from './components';
-
+import LoginForm from './components/common/LoginForm';
 import ax from './config/axiosSetup';
 
 class App extends Component {
@@ -20,10 +18,6 @@ class App extends Component {
   componentDidMount() {
     console.log('loaded');
   } // end of componentWillMount
-
-  buttonPress() {
-
-  }
 
   checkLogin() {
     ax.get('session')
